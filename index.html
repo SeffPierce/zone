@@ -158,6 +158,7 @@
                     event.preventDefault();
 
                     var zoneName = document.getElementById("zoneName").value;
+                    var deliveryDetails = document.getElementById("deliveryDetails").value;
                     var zoneDisplayed = document.getElementById("zoneDisplayed").checked;
 
                     if (zoneName == "") {
@@ -170,7 +171,7 @@
                     api.call("Add", {
                         typeName: "Zone",
                         entity: {
-                            name: zoneName + txtmsg,
+                            name: zoneName,
                             comment: deliveryDetails,
                             externalReference: "",
                             mustIdentifyStops: true,
