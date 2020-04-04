@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 
     <head>
@@ -158,20 +158,19 @@
                     event.preventDefault();
 
                     var zoneName = document.getElementById("zoneName").value;
+                    var customerNumber = document.getElementById("customerNumber").value;
                     var deliveryDetails = document.getElementById("deliveryDetails").value;
                     var zoneDisplayed = document.getElementById("zoneDisplayed").checked;
 
                     if (zoneName == "") {
-                        alert("Zone name is required");
+                        alert("Customer name is required");
                         return;
                     }
-
-                    var txtmsg = " - [Click here to send whatsapp to Seth Pierce](https://wa.me/12462381120?text=Your%20order%20has%20just%20been%20delivered.%20Thanks!"
 
                     api.call("Add", {
                         typeName: "Zone",
                         entity: {
-                            name: ("Successfully created zone for customer " + zoneName),
+                            name: (zoneName + "- [Click here to send whatsapp to "+zoneName+"](https://wa.me/"+customerNumber+"?text=Your%20order%20has%20just%20been%20delivered.%20Thanks!"),
                             comment: deliveryDetails,
                             externalReference: "",
                             mustIdentifyStops: true,
