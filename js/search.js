@@ -1,5 +1,15 @@
 function initSearch () {
-
+  // Clearning address or lat/long inputs to avoid user confusion when trying to enter both
+  document.getElementById('address').addEventListener('change', function (event) {
+    document.getElementById('cuslongitude').value = "";
+    document.getElementById('cuslatitude').value = "";
+  })
+  document.getElementById('cuslongitude').addEventListener('change', function (event) {
+    document.getElementById('address').value = "";
+  })
+  document.getElementById('cuslatitude').addEventListener('change', function (event) {
+    document.getElementById('address').value = "";
+  })
   document.getElementById("search").addEventListener("click", function (event) {
     event.preventDefault();
 
