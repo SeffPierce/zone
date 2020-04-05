@@ -100,7 +100,7 @@ function addZoneViaApi (zoneName, customerNumber, deliveryDetails, zoneDisplayed
     api.call("Add", {
       typeName: "Zone",
       entity: {
-        name: (zoneName + "- [Click here to send whatsapp to " + zoneName + "](https://wa.me/" + customerNumber + "?text=Your%20order%20has%20just%20been%20delivered.%20Thanks!"),
+        name: (zoneName + "- [Click here to send whatsapp to " + zoneName + "](https://wa.me/" + customerNumber + "?text=Your%20order%20has%20just%20been%20delivered.%20Thanks!)"),
         comment: deliveryDetails,
         externalReference: "",
         mustIdentifyStops: true,
