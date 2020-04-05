@@ -43,7 +43,8 @@ function initSearch () {
       return;
     }
 
-    addZoneViaApi(zoneName, customerNumber, deliveryDetails, zoneDisplayed, zonePoints);
+    addZoneViaApi(zoneName, customerNumber, deliveryDetails, zoneDisplayed, zonePoints)
+      .then(message => alert(message));
   });
 
   document.getElementById("size").addEventListener("change", function (event) {
@@ -95,33 +96,36 @@ function searchWithCoordinates (lat, long) {
 
 function addZoneViaApi (zoneName, customerNumber, deliveryDetails, zoneDisplayed, zonePoints) {
   console.debug("ADDING ZONE", zoneName, customerNumber, deliveryDetails, zoneDisplayed, zonePoints);
-  api.call("Add", {
-    typeName: "Zone",
-    entity: {
-      name: (zoneName + "- [Click here to send whatsapp to " + zoneName + "](https://wa.me/" + customerNumber + "?text=Your%20order%20has%20just%20been%20delivered.%20Thanks!"),
-      comment: deliveryDetails,
-      externalReference: "",
-      mustIdentifyStops: true,
-      displayed: zoneDisplayed,
-      activeFrom: "1986-01-01T00:00:00.000Z",
-      activeTo: "2050-01-01T00:00:00.000Z",
-      zoneTypes: ["ZoneTypeCustomerId"],
-      groups: [{
-        id: "GroupCompanyId"
-      }],
-      points: zonePoints,
-      fillColor: {
-        r: 233,
-        g: 150,
-        b: 122,
-        a: 255
+  return new Promise((resolve, reject) => {
+    api.call("Add", {
+      typeName: "Zone",
+      entity: {
+        name: (zoneName + "- [Click here to send whatsapp to " + zoneName + "](https://wa.me/" + customerNumber + "?text=Your%20order%20has%20just%20been%20delivered.%20Thanks!"),
+        comment: deliveryDetails,
+        externalReference: "",
+        mustIdentifyStops: true,
+        displayed: zoneDisplayed,
+        activeFrom: "1986-01-01T00:00:00.000Z",
+        activeTo: "2050-01-01T00:00:00.000Z",
+        zoneTypes: ["ZoneTypeCustomerId"],
+        groups: [{
+          id: "GroupCompanyId"
+        }],
+        points: zonePoints,
+        fillColor: {
+          r: 233,
+          g: 150,
+          b: 122,
+          a: 255
+        }
       }
-    }
-  }, function (result) {
-    alert("Successfully created zone for customer " + zoneName);
-  }, function (error) {
-    console.log(error);
-  });
+    }, function (result) {
+      resolve("Successfully created zone for customer " + zoneName);
+    }, function (error) {
+      reject(error);
+    });
+
+  })
 }
 
 function drawZone (coordinate) {
