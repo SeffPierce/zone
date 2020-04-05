@@ -31,9 +31,6 @@ function processDataAsObj (csv) {
   //first line of csv
   var keys = allTextLines.shift().split(CSV_SEPARATOR);
 
-  let isValid = true;
-  const requiredKeys = ["areaRadius", "customerNumber", "customerName",
-    "deliveryDetails", "Latitude", "Longitude"];
   while (allTextLines.length) {
     var arr = allTextLines.shift().split(CSV_SEPARATOR);
     if (arr.length !== keys.length) {
@@ -41,31 +38,19 @@ function processDataAsObj (csv) {
       return;
     }
     var obj = {};
-    isValid = requiredKeys.every(reqKey => keys.includes(reqKey))
     for (var i = 0; i < keys.length; i++) {
       obj[keys[i]] = arr[i];
     }
     lines.push(obj);
   }
-  if (!isValid) {
-    alert(`Not all required keys are present in the file:${requiredKeys.join(',')}`);
-    return;
-  }
   console.log(lines);
-  const apiCalls = lines.map(line => {
+  lines.forEach(line => {
     const { areaRadius, customerNumber, customerName,
       deliveryDetails, isSquareArea, Latitude, Longitude, showOnMyGeoTabByDefault } = line;
-    const { zonePoints } = generateZonePoints({
-      y: Number(Latitude),
-      x: Number(Longitude)
-    },
-      isSquareArea === "0" ? false : true,
-      areaRadius);
-    return addZoneViaApi(customerName, customerNumber, deliveryDetails, showOnMyGeoTabByDefault === "0" ? false : true, zonePoints);
-  });
-  Promise.all(apiCalls)
-    .then(x => alert("File has been processed. All customers added"))
-    .catch(err => console.error("An error occured:", err));
+    const { zonePoints } = generateZonePoints({ y: Number(Latitude), x: Number(Longitude) }, isSquareArea === "1" ? true : false, areaRadius);
+    addZoneViaApi(customerName, customerNumber, deliveryDetails, showOnMyGeoTabByDefault === "1" ? true : false, zonePoints);
+  })
+  drawOutputAsObj(lines);
 }
 
 function errorHandler (evt) {
