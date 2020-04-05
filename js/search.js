@@ -43,33 +43,7 @@ function initSearch () {
       return;
     }
 
-    api.call("Add", {
-      typeName: "Zone",
-      entity: {
-        name: (zoneName + "- [Click here to send whatsapp to " + zoneName + "](https://wa.me/" + customerNumber + "?text=Your%20order%20has%20just%20been%20delivered.%20Thanks!"),
-        comment: deliveryDetails,
-        externalReference: "",
-        mustIdentifyStops: true,
-        displayed: zoneDisplayed,
-        activeFrom: "1986-01-01T00:00:00.000Z",
-        activeTo: "2050-01-01T00:00:00.000Z",
-        zoneTypes: ["ZoneTypeCustomerId"],
-        groups: [{
-          id: "GroupCompanyId"
-        }],
-        points: zonePoints,
-        fillColor: {
-          r: 233,
-          g: 150,
-          b: 122,
-          a: 255
-        }
-      }
-    }, function (result) {
-      alert("Successfully created zone for customer " + zoneName);
-    }, function (error) {
-      console.log(error);
-    });
+    addZoneViaApi(zoneName, customerNumber, deliveryDetails, zoneDisplayed, zonePoints);
   });
 
   document.getElementById("size").addEventListener("change", function (event) {
@@ -80,6 +54,7 @@ function initSearch () {
     }
   });
 }
+
 function searchWithAddress (address) {
   api.call("GetCoordinates", {
     addresses: [address]
@@ -98,6 +73,7 @@ function searchWithAddress (address) {
     alert(error);
   });
 }
+
 function searchWithCoordinates (lat, long) {
   const coordinate = { y: lat, x: long };
   api.call("GetAddresses", {
@@ -117,15 +93,41 @@ function searchWithCoordinates (lat, long) {
   });
 }
 
-function drawZone (coordinate) {
-  var center = new L.LatLng(coordinate.y, coordinate.x);
-  var radius = document.getElementById("size").value;
+function addZoneViaApi (zoneName, customerNumber, deliveryDetails, zoneDisplayed, zonePoints) {
+  console.debug("ADDING ZONE", zoneName, customerNumber, deliveryDetails, zoneDisplayed, zonePoints);
+  api.call("Add", {
+    typeName: "Zone",
+    entity: {
+      name: (zoneName + "- [Click here to send whatsapp to " + zoneName + "](https://wa.me/" + customerNumber + "?text=Your%20order%20has%20just%20been%20delivered.%20Thanks!"),
+      comment: deliveryDetails,
+      externalReference: "",
+      mustIdentifyStops: true,
+      displayed: zoneDisplayed,
+      activeFrom: "1986-01-01T00:00:00.000Z",
+      activeTo: "2050-01-01T00:00:00.000Z",
+      zoneTypes: ["ZoneTypeCustomerId"],
+      groups: [{
+        id: "GroupCompanyId"
+      }],
+      points: zonePoints,
+      fillColor: {
+        r: 233,
+        g: 150,
+        b: 122,
+        a: 255
+      }
+    }
+  }, function (result) {
+    alert("Successfully created zone for customer " + zoneName);
+  }, function (error) {
+    console.log(error);
+  });
+}
 
-  if (document.getElementById("shape-square").checked) {
-    generateSquareZonePoints(coordinate, radius);
-  } else {
-    generateCircleZonePoints(coordinate, radius);
-  }
+function drawZone (coordinate) {
+  var radius = document.getElementById("size").value;
+  const isSquareArea = document.getElementById("shape-square").checked;
+  var { center } = generateZonePoints(coordinate, isSquareArea, radius);
 
   var polygon = [];
 
@@ -139,6 +141,17 @@ function drawZone (coordinate) {
 
   layerGroup.clearLayers().addLayer(shape);
   map.setView(center, 13);
+}
+
+function generateZonePoints (coordinate, isSquareArea, radius) {
+  var center = new L.LatLng(coordinate.y, coordinate.x);
+  if (isSquareArea) {
+    generateSquareZonePoints(coordinate, radius);
+  }
+  else {
+    generateCircleZonePoints(coordinate, radius);
+  }
+  return { center, zonePoints };
 }
 
 function generateSquareZonePoints (coordinates, radius) {
