@@ -30,13 +30,21 @@ function processDataAsObj (csv) {
   //first line of csv
   var keys = allTextLines.shift().split(',');
 
+  let isValid = true;
+  const requiredKeys = ["areaRadius", "customerNumber", "customerName",
+    "deliveryDetails", "Latitude", "Longitude"];
   while (allTextLines.length) {
     var arr = allTextLines.shift().split(',');
     var obj = {};
+    isValid = requiredKeys.every(reqKey => keys.includes(reqKey))
     for (var i = 0; i < keys.length; i++) {
       obj[keys[i]] = arr[i];
     }
     lines.push(obj);
+  }
+  if (!isValid) {
+    alert(`Not all required keys are present in the file:${requiredKeys.join(',')}`);
+    return;
   }
   console.log(lines);
   const apiCalls = lines.map(line => {
