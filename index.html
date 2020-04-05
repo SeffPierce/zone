@@ -9,16 +9,26 @@
 
         <link href="js/mapbox/mapbox.css" rel="stylesheet" type="text/css" />
         <link href="css/geotab.css" rel="stylesheet" type="text/css" />
+        <link href="css/upload.css" rel="stylesheet" type="text/css" />
+
 
     </head>
 
     <body>
 
         <header>
+            <form>
+                <input multiple class="input-fileupload" type="file" id="upload" onchange="handleFiles(this.files)" accept=".csv"/>
+            </form>
             <div class="container">
                 <nav>
                     <img src="https://easytrak.co/wp-content/uploads/2018/02/EasyTrak-logo-new-300x90.png" alt="" />
-                    <button id="upload">Bulk Upload</button>
+                    
+                        <button>
+                            <label for="upload">
+                                    Bulk Upload
+                            </label>
+                        </button>
                     <button id="help">Help</button>
                     <button id="signout">Sign out</button>
                 </nav>
@@ -115,6 +125,7 @@
         <script src="js/api.js"></script>
         <script src="js/login.js"></script>
         <script src="js/search.js"></script>
+        <script src="js/upload.js"></script>
 
         <script type="text/javascript">
 
