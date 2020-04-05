@@ -7,22 +7,17 @@ function initSearch () {
     const lat = document.getElementById("cuslatitude").value;
     const long = document.getElementById("cuslongitude").value;
 
+    const addressSpecified = address !== "";
+    const constantsSpecified = lat !== "" && long !== "";
     // Use Geotab API to reverse geocode by street address
-    if (address === "" && (lat === "" || long === "")) {
-      alert("Address or lat and long is required");
+    if (addressSpecified || constantsSpecified) {
+      if (addressSpecified) {
+        searchWithAddress(address);
+      } else {
+        searchWithCoordinates(lat, long)
+      }
     } else {
-      api.call("GetCoordinates", {
-        addresses: [address]
-      }, function (result) {
-        if (result[0] != null) {
-          drawZone(result[0]);
-          document.getElementById("example-content-details").style.display = "block";
-        } else {
-          alert("Could not find coordinates for that address");
-        }
-      }, function (error) {
-        alert(error);
-      });
+      alert("Address or lat and long is required");
     }
   });
   document.getElementById("addZone").addEventListener("click", function (event) {
@@ -75,6 +70,43 @@ function initSearch () {
     }
   });
 }
+function searchWithAddress (address) {
+  api.call("GetCoordinates", {
+    addresses: [address]
+  }, function (result) {
+    if (result[0] != null) {
+      const { x: long, y: lat } = result[0];
+      document.getElementById('cuslatitude').value = lat;
+      document.getElementById('cuslongitude').value = long;
+      drawZone(result[0]);
+      document.getElementById("example-content-details").style.display = "block";
+    }
+    else {
+      alert("Could not find coordinates for that address");
+    }
+  }, function (error) {
+    alert(error);
+  });
+}
+function searchWithCoordinates (lat, long) {
+  const coordinate = { y: lat, x: long };
+  api.call("GetAddresses", {
+    coordinates: [coordinate]
+  }, function (result) {
+    if (result[0] != null) {
+      const { formattedAddress } = result[0];
+      document.getElementById("address").value = formattedAddress;
+      drawZone(coordinate);
+      document.getElementById("example-content-details").style.display = "block";
+    }
+    else {
+      alert("Could not find coordinates for that address");
+    }
+  }, function (error) {
+    alert(error);
+  });
+}
+
 function drawZone (coordinate) {
   var center = new L.LatLng(coordinate.y, coordinate.x);
   var radius = document.getElementById("size").value;
