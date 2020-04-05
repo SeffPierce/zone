@@ -22,19 +22,24 @@ function loadHandler (event) {
   processDataAsObj(csv);
 }
 
+const CSV_SEPARATOR = ';';
 // presume that csv file contains the column names as the first line
 function processDataAsObj (csv) {
   var allTextLines = csv.split(/\r\n|\n/);
   var lines = [];
 
   //first line of csv
-  var keys = allTextLines.shift().split(',');
+  var keys = allTextLines.shift().split(CSV_SEPARATOR);
 
   let isValid = true;
   const requiredKeys = ["areaRadius", "customerNumber", "customerName",
     "deliveryDetails", "Latitude", "Longitude"];
   while (allTextLines.length) {
-    var arr = allTextLines.shift().split(',');
+    var arr = allTextLines.shift().split(CSV_SEPARATOR);
+    if (arr.length !== keys.length) {
+      alert(`Invalid row ${arr.join(CSV_SEPARATOR)}. Mismatch with number of header columns`)
+      return;
+    }
     var obj = {};
     isValid = requiredKeys.every(reqKey => keys.includes(reqKey))
     for (var i = 0; i < keys.length; i++) {
