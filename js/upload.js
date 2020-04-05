@@ -39,13 +39,20 @@ function processDataAsObj (csv) {
     lines.push(obj);
   }
   console.log(lines);
-  lines.forEach(line => {
+  const apiCalls = lines.map(line => {
     const { areaRadius, customerNumber, customerName,
       deliveryDetails, isSquareArea, Latitude, Longitude, showOnMyGeoTabByDefault } = line;
-    const { zonePoints } = generateZonePoints({ y: Number(Latitude), x: Number(Longitude) }, isSquareArea === "1" ? true : false, areaRadius);
-    addZoneViaApi(customerName, customerNumber, deliveryDetails, showOnMyGeoTabByDefault === "1" ? true : false, zonePoints);
-  })
-  drawOutputAsObj(lines);
+    const { zonePoints } = generateZonePoints({
+      y: Number(Latitude),
+      x: Number(Longitude)
+    },
+      isSquareArea === "0" ? false : true,
+      areaRadius);
+    return addZoneViaApi(customerName, customerNumber, deliveryDetails, showOnMyGeoTabByDefault === "0" ? false : true, zonePoints);
+  });
+  Promise.all(apiCalls)
+    .then(x => alert("File has been processed. All customers added"))
+    .catch(err => console.error("An error occured:", err));
 }
 
 function errorHandler (evt) {
