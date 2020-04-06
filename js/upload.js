@@ -27,12 +27,14 @@ const ALTERNATE_CSV_DELIMITER = ',';
 // presume that csv file contains the column names as the first line
 function processDataAsObj (csv) {
   var allTextLines = csv.split(/\r\n|\n/);
+  /// remove empty lines
+  allTextLines = allTextLines.filter(x => x !== "");
   var lines = [];
 
   let csvDelimiter = DEFAULT_CSV_DELIMITER;
   //first line of csv
   const header = allTextLines.shift();
-  if (!header.contains(DEFAULT_CSV_DELIMITER)) {
+  if (!header.includes(DEFAULT_CSV_DELIMITER)) {
     csvDelimiter = ALTERNATE_CSV_DELIMITER;
   }
   console.log(`Using csv delimiter:${csvDelimiter}`);
