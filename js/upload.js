@@ -22,22 +22,30 @@ function loadHandler (event) {
   processDataAsObj(csv);
 }
 
-const CSV_SEPARATOR = ';';
+const DEFAULT_CSV_DELIMITER = ';';
+const ALTERNATE_CSV_DELIMITER = ',';
 // presume that csv file contains the column names as the first line
 function processDataAsObj (csv) {
   var allTextLines = csv.split(/\r\n|\n/);
   var lines = [];
 
+  let csvDelimiter = DEFAULT_CSV_DELIMITER;
   //first line of csv
-  var keys = allTextLines.shift().split(CSV_SEPARATOR);
+  const header = allTextLines.shift();
+  if (!header.contains(DEFAULT_CSV_DELIMITER)) {
+    csvDelimiter = ALTERNATE_CSV_DELIMITER;
+  }
+  console.log(`Using csv delimiter:${csvDelimiter}`);
+
+  var keys = header.split(csvDelimiter);
 
   let isValid = true;
   const requiredKeys = ["areaRadius", "customerNumber", "customerName",
     "deliveryDetails", "Latitude", "Longitude"];
   while (allTextLines.length) {
-    var arr = allTextLines.shift().split(CSV_SEPARATOR);
+    var arr = allTextLines.shift().split(csvDelimiter);
     if (arr.length !== keys.length) {
-      alert(`Invalid row ${arr.join(CSV_SEPARATOR)}. Mismatch with number of header columns`)
+      alert(`Invalid row ${arr.join(csvDelimiter)}. Mismatch with number of header columns`)
       return;
     }
     var obj = {};
