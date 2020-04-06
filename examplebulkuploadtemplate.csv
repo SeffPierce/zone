@@ -1,3 +1,13 @@
-zoneName;customerNumber;deliveryDetails;address;cuslatitude;cuslongitude;zoneDisplayed
-Seth Pierce;12462381120;Groceries from Massy;"Bridgetown; Barbados";;;
-Jonathan Pierce;12462381122;Pharmacy (Rx);;13.1126686;-59.477116;
+Latitude;Longitude;isSquareArea;areaRadius;customerName;customerNumber;deliveryDetails;showOnMyGeoTabByDefault
+40.7678852;-74.060139;1;100;Maxim Dev;12462381120;Groceries from Massy to be dropped off at 460A Emeral Park West, St. Philip;1
+13.1842181;-59.6304714;1;100;Khalil Bryan;12462381121;Pharmacy (Rx) to be dropped off at 39 Fairview Heights, St. George;1
+13.1498814;-59.5385123;1;100;Veronica Millington;12462381122;Groceries from Massy to be dropped off at Bagatelle, St. James;1
+13.0845773;-59.5015989;1;100;Shanice KIrton;12462381123;Pharmacy (Rx) to be dropped off at Baird's Village, St. George;1
+13.1419154;-59.60875;1;100;Linda Kirton;12462381124;Groceries from Massy to be dropped off at Avocado Drive, Coverly Village, Christ Church;1
+13.1113287;-59.5743195;1;100;Massy Warrens;12462381125;Pharmacy (Rx) to be dropped off at Massy Stores, Warrens, St. Michael;1
+13.1185932;-59.6197389;1;100;Knights Pharmacy (SkyMall);12462381126;Groceries from Cost u Less to be dropped off at Haggatt Hall, St. Michael;1
+13.0794994;-59.5424432;1;100;Shameka Jones;12462381127;Pharmacy (Rx) to be dropped off at #3 Deacons Road, Deacons Farm, St. MIchael;1
+13.1329586;-59.5876965;1;100;Raeann Flatts;12462381128;Groceries from Cost u Less to be dropped off at Kingsland Gardens, Christ Church;1
+13.1205719;-59.6060126;1;100;Roberts Manufacturing;12462381129;Groceries from PriceSmart to be dropped off at Lower Estate, St. Michael;1
+13.1166166;-59.6073696;1;100;Wesley Brewster;12462381130;Groceries from PriceSmart to be dropped off at Parade Road, Bush Hall, St. Michael;1
+13.1126686;-59.477116;1;100;Nathan Brewster;12462381131;Groceries from PriceSmart to be dropped off at Review Road, Bush Hall, St. Michael;1
