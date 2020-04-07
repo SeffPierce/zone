@@ -47,13 +47,13 @@ function initSearch () {
       .then(message => alert(message));
   });
 
-  document.getElementById("size").addEventListener("change", function (event) {
+  /*document.getElementById("size").addEventListener("change", function (event) {
     if (event.target.value < 1000) {
       document.getElementById("sizeLabel").innerHTML = "Size (" + event.target.value + "m)";
     } else {
       document.getElementById("sizeLabel").innerHTML = "Size (" + (event.target.value / 1000.0).toFixed(2) + "km)";
     }
-  });
+  });*/
 }
 
 function searchWithAddress (address) {
@@ -129,8 +129,8 @@ function addZoneViaApi (zoneName, customerNumber, deliveryDetails, zoneDisplayed
 }
 
 function drawZone (coordinate) {
-  var radius = document.getElementById("size").value;
-  const isSquareArea = document.getElementById("shape-square").checked;
+  var radius = 100;
+  const isSquareArea = 0;
   var { center } = generateZonePoints(coordinate, isSquareArea, radius);
 
   var polygon = [];
