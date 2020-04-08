@@ -204,8 +204,18 @@ document.addEventListener("DOMContentLoaded", function () {
 
         return function () {
             this.initialize = function () {
+				console.log("Login");
+				
                 initializeGeotabApi();
                 intializeInterface();
+				
+				if (api !== undefined) {
+                    api.forget();
+                }
+				
+				signOut();
+				
+				
             }
         };
 
