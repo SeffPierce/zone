@@ -101,7 +101,7 @@ document.addEventListener("DOMContentLoaded", function () {
             legend.innerHTML = "Sign in to continue";
 
             // Build server field
-            paragraph1.appendChild(createLabel({
+           /* paragraph1.appendChild(createLabel({
                 for: "server",
                 html: "Server name"
             }));
@@ -122,7 +122,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 type: "text",
                 placeholder: "Example: MyCompany",
                 value: (debug.enabled === true ? debug.database : undefined)
-            }));
+            }));*/
 
             // Build email field
             paragraph3.appendChild(createLabel({
@@ -172,8 +172,8 @@ document.addEventListener("DOMContentLoaded", function () {
             document.getElementById("signin").addEventListener("click", function (event) {
                 event.preventDefault();
 
-                var server   = document.getElementById("server").value,
-                    database = document.getElementById("database").value,
+                var server   = "mypreview.geotab.com",
+                    database = "ctsitest",
                     email    = document.getElementById("email").value,
                     password = document.getElementById("password").value;
 
