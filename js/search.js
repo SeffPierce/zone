@@ -36,7 +36,7 @@ function initSearch () {
     var zoneName = document.getElementById("zoneName").value;
     var customerNumber = document.getElementById("customerNumber").value;
     var deliveryDetails = document.getElementById("deliveryDetails").value;
-    var zoneDisplayed = document.getElementById("zoneDisplayed").checked;
+    var zoneDisplayed = 1;
 
     if (zoneName == "") {
       alert("Customer name is required");

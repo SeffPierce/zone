@@ -42,10 +42,11 @@ function processDataAsObj (csv) {
   var keys = header.split(csvDelimiter);
 
   let isValid = true;
-  const requiredKeys = ["areaRadius", "customerNumber", "customerName",
+  const requiredKeys = ["customerNumber", "customerName",
     "deliveryDetails", "Latitude", "Longitude"];
   while (allTextLines.length) {
     var arr = allTextLines.shift().split(csvDelimiter);
+	console.log(`allTextLines:${arr}`);
     if (arr.length !== keys.length) {
       alert(`Invalid row ${arr.join(csvDelimiter)}. Mismatch with number of header columns`)
       return;
@@ -62,14 +63,16 @@ function processDataAsObj (csv) {
     return;
   }
   console.log(lines);
+  const areaRadius = 100;
+  const isSquareArea = 0;
+  const showOnMyGeoTabByDefault = 1;
   const apiCalls = lines.map(line => {
-    const { areaRadius, customerNumber, customerName,
-      deliveryDetails, isSquareArea, Latitude, Longitude, showOnMyGeoTabByDefault } = line;
+    const { customerNumber, customerName, deliveryDetails, Latitude, Longitude } = line;
     const { zonePoints } = generateZonePoints({
       y: Number(Latitude),
       x: Number(Longitude)
     },
-      isSquareArea === "0" ? false : true,
+      isSquareArea,
       areaRadius);
     return addZoneViaApi(customerName, customerNumber, deliveryDetails, showOnMyGeoTabByDefault === "0" ? false : true, zonePoints);
   });
