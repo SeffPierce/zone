@@ -4,6 +4,11 @@ function initSearch () {
     document.getElementById('cuslongitude').value = "";
     document.getElementById('cuslatitude').value = "";
   })
+  document.getElementById('gpslink').addEventListener('change', function (event) {
+    document.getElementById('address').value = "";
+	document.getElementById('cuslongitude').value = "";
+    document.getElementById('cuslatitude').value = "";
+  })
   document.getElementById('cuslongitude').addEventListener('change', function (event) {
     document.getElementById('address').value = "";
   })
@@ -14,8 +19,26 @@ function initSearch () {
     event.preventDefault();
 
     var address = document.getElementById("address").value;
-    const lat = document.getElementById("cuslatitude").value;
-    const long = document.getElementById("cuslongitude").value;
+    var lat = document.getElementById("cuslatitude").value;
+    var long = document.getElementById("cuslongitude").value;
+	var link = document.getElementById("gpslink").value;
+	
+	if(link != "")
+	{
+		var lk = link.split("&");
+		var str = lk[0];
+		var res = str.split("=");
+		var parse = res[1];
+		var coord = parse.split("%2C");
+	}
+	
+	
+	if(lat == "")
+	{
+		lat = coord[0];
+		long = coord[1];
+	}
+	
 
     const addressSpecified = address !== "";
     const constantsSpecified = lat !== "" && long !== "";
@@ -96,6 +119,7 @@ function searchWithCoordinates (lat, long) {
 
 function addZoneViaApi (zoneName, customerNumber, deliveryDetails, zoneDisplayed, zonePoints) {
   console.debug("ADDING ZONE", zoneName, customerNumber, deliveryDetails, zoneDisplayed, zonePoints);
+  var today = new Date().toISOString().slice(0, 19);
   return new Promise((resolve, reject) => {
     api.call("Add", {
       typeName: "Zone",
@@ -105,7 +129,7 @@ function addZoneViaApi (zoneName, customerNumber, deliveryDetails, zoneDisplayed
         externalReference: "",
         mustIdentifyStops: true,
         displayed: zoneDisplayed,
-        activeFrom: "1986-01-01T00:00:00.000Z",
+        activeFrom: today,
         activeTo: "2050-01-01T00:00:00.000Z",
         zoneTypes: ["ZoneTypeCustomerId"],
         groups: [{
